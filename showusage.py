@@ -29,14 +29,14 @@
 # Connectivity:
 #    Option 1 - User Authentication
 #       $HOME/.oci/config, please follow - https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/sdkconfig.htm
-#       OCI user part of ListUsageGroup group with below Policy rules:
-#          Allow group ListUsageGroup to inspect tenancies in tenancy
-#          Allow group ListUsageGroup to read usage-report in tenancy
+#       OCI user part of ShowUsageGroup group with below Policy rules:
+#          Allow group ShowUsageGroup to inspect tenancies in tenancy
+#          Allow group ShowUsageGroup to read usage-report in tenancy
 #
 #    Option 2 - Instance Principle
-#       Compute instance part of DynListLimitsGroup dynamic group with policy rules:
-#          Allow dynamic group DynListUsageGroup to inspect tenancies in tenancy
-#          Allow dynamic group DynListUsageGroup to read usage-report in tenancy
+#       Compute instance part of DynShowUsageGroup dynamic group with policy rules:
+#          Allow dynamic group DynShowUsageGroup to inspect tenancies in tenancy
+#          Allow dynamic group DynShowUsageGroup to read usage-report in tenancy
 #
 ##########################################################################
 # Modules Included:
@@ -302,7 +302,6 @@ def usage_daily_product(usageClient, tenant_id, time_usage_started, time_usage_e
 def usage_daily_summary(usageClient, tenant_id, time_usage_started, time_usage_ended):
 
     try:
-        time_usage_ended_included = time_usage_ended - datetime.timedelta(days=1)
 
         # oci.usage_api.models.RequestSummarizedUsagesDetails
         requestSummarizedUsagesDetails = oci.usage_api.models.RequestSummarizedUsagesDetails(
@@ -424,7 +423,7 @@ def main():
     parser.add_argument('-dt', action='store_true', default=False, dest='is_delegation_token', help='Use Delegation Token for Authentication')
     parser.add_argument("-ds", default=None, dest='date_start', help="Start Date - format YYYY-MM-DD", type=valid_date_type)
     parser.add_argument("-de", default=None, dest='date_end', help="End Date - format YYYY-MM-DD, (Not Inclusive)", type=valid_date_type)
-    parser.add_argument("-days", default=1, dest='days', help="Add Days Combined with Start Date (de is ignored if specified)", type=int)
+    parser.add_argument("-days", default=None, dest='days', help="Add Days Combined with Start Date (de is ignored if specified)", type=int)
     parser.add_argument("-report", default="ALL", dest='report', help="Report Type = PRODUCT / DAILY / ALL ( Default = ALL )")
     cmd = parser.parse_args()
 
@@ -484,7 +483,7 @@ def main():
         print("\n!!! Error, Start date cannot be in the future !!!")
         sys.exit()
 
-    if cmd.date_start and cmd.date_end and cmd.date_start < cmd.date_end:
+    if cmd.date_start and cmd.date_end and cmd.date_start > cmd.date_end:
         print("\n!!! Error, Start date cannot be greater than End date !!!")
         sys.exit()
 
