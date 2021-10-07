@@ -1,4 +1,4 @@
-## showoci - Oracle Cloud Infrastructure Reporting Tool
+## SHOWUSAGE - Oracle Cloud Infrastructure Usage and Cost Reporting Tool
 
 SHOWUSAGE is a usage reporting tool which uses the Python SDK to extract usage and cost from your tenant. 
 Authentication by User or Compute using instance principals, 
@@ -30,15 +30,17 @@ and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/
 ## Installation of Python 3 incase you don't have Python3 installed:
 Please follow [Python Documentation](https://docs.python.org/3/using/index.html)
 
-## Install oci SDK Packages:
+## Install OCI SDK Packages:
 Please follow [Oracle Python SDK Documentation](https://github.com/oracle/oci-python-sdk)
 
 ## Setup connectivity using Instance Principals
 
 ```  
 1. Login to your OCI Cloud console
+
 2. Create new Dynamic Group : DynShowUsageGroup  
    Obtain Compute OCID and add rule - any {ALL {instance.id = 'ocid1.instance.oc1.xxxxxxxxxx'}}
+
 3. Create new Policy: ShowUsgaeDynamicGroupPolicy with Statements:
    Allow dynamic group DynShowUsageGroup to inspect tenancies in tenancy
    Allow dynamic group DynShowUsageGroup to read usage-report in tenancy
@@ -48,11 +50,15 @@ Please follow [Oracle Python SDK Documentation](https://github.com/oracle/oci-py
 
 ```  
 1. Login to your OCI Cloud console
+
 2. Create new group : ShowUsageGroup  
+
 3. Create new Policy: ShowUsageGroupPolicy with Statements:
-Allow group ShowUsageGroup to inspect tenancies in tenancy
-Allow group ShowUsageGroup to read usage-report in tenancy
+   Allow group ShowUsageGroup to inspect tenancies in tenancy
+   Allow group ShowUsageGroup to read usage-report in tenancy
+
 4. Create new User  : showuser.user -> Add to ShowUsageGroup group  
+
 5. Config OCI config file - ~/.oci/config
    Please follow SDK config documentation - https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/sdkconfig.htm 
 ```
@@ -80,9 +86,25 @@ optional arguments:
 
 ```
 
-## Below example of reports from demo tenancies (Those are demo random costs)
+## Below example of reports from demo tenancy (random costs generated)
 
 ```
+########################################################################################################################
+#                                                  Running Show Usage                                                  #
+########################################################################################################################
+Author          : Adi Zohar
+Disclaimer      : This is not an official Oracle application,  It does not supported by Oracle, It should NOT be used for utilization calculation purposes !
+                : Last 2 days may not be filled and should not be used
+Machine         : adiwrk (x86_64)
+App Version     : 2021.10.07
+OCI SDK Version : 2.45.1
+Python Version  : 3.6.8
+Authentication  : Config File
+Date/Time       : 2021-10-07 12:57:15
+Command Line    : -ds 2021-09-01 -de 2021-10-01
+Start Date      : 09/01/2021
+End Date        : 10/01/2021 Not Included
+
 ########################################################################################################################
 #                                                    Fetching data                                                     #
 ########################################################################################################################
